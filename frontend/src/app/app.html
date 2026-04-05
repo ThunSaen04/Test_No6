@@ -1,0 +1,62 @@
+<div class="mainbox">
+    <form class="items-add">
+      <label for="iname">รหัสสินค้า</label><br>
+      <input type="text"
+             id="iname"
+             name="iname"
+             class="input1"
+             placeholder="XXXX-XXXX-XXXX-XXXX"
+             maxlength="19"
+             [(ngModel)]="product_code"
+             (input)="formatItemCode($event)">
+      <br>
+      <input type="submit"
+             value="ADD"
+             class="submit1"
+             (click)="addItem()">
+    </form>
+
+<table class="table1">
+  <thead>
+    <tr class="head_t">
+      <th>Id</th>
+      <th>รหัสสินค้า (16 หลัก)</th>
+      <th>บาร์โค้ดสินค้า</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (item of items(); track item.id) {
+      <tr>
+        <td>{{item.id}}</td>
+        <td>{{item.product_code}}</td>
+        <td class="barcode-img">
+          <img [src]="item.barcode_url" alt="barcode">
+        </td>
+        <td>
+          <button class="submit1" (click)="deleteItem(item.id)">ลบ</button>
+        </td>
+      </tr>
+    } @empty {
+      <tr>
+        <td colspan="4" style="color: #888;">
+          ไม่พบข้อมูลสินค้า
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+  </div>
+
+@if (pendingDeleteId()) {
+  <div class="modal-overlay">
+    <div class="modal-box">
+      <p>ต้องการลบข้อมูลรหัสสินค้า <strong>{{ getPendingCode() }}</strong> หรือไม่?</p>
+      
+      <div class="modal-actions">
+        <button class="btn-confirm" (click)="confirmDelete()">ตกลง</button>
+        <button class="btn-cancel" (click)="cancelDelete()">ยกเลิก</button>
+      </div>
+    </div>
+  </div>
+}
