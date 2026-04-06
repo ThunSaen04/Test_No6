@@ -16,7 +16,7 @@ import (
 
 	"no6/backend/internal/config"
 	"no6/backend/internal/models"
-	"no6/backend/internal/modules/products/utils"
+	"no6/backend/internal/modules/barcode/utils"
 )
 
 var code39Pattern = regexp.MustCompile(`^[0-9A-Z\-\.\ \$/\+%]+$`)

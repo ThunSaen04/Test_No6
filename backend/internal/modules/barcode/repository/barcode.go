@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 
 	"no6/backend/internal/models"
-	"no6/backend/internal/modules/products/utils"
+	"no6/backend/internal/modules/barcode/utils"
 )
 
 type ProductRepository struct {

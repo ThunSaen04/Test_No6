@@ -10,9 +10,6 @@ import (
 
 	"no6/backend/internal/config"
 	"no6/backend/internal/database"
-	productHandler "no6/backend/internal/modules/products/handler"
-	productRepository "no6/backend/internal/modules/products/repository"
-	productService "no6/backend/internal/modules/products/service"
 	"no6/backend/internal/routes"
 )
 
@@ -35,10 +32,6 @@ func main() {
 		log.Fatalf("migration failed: %v", err)
 	}
 
-	barcodeRepo := productRepository.NewProductRepository(db)
-	barcodeService := productService.NewBarcodeService(barcodeRepo, cfg)
-	barcodeHandler := productHandler.NewBarcodeHandler(barcodeService, cfg)
-
 	app := fiber.New()
 	app.Use(recover.New())
 	app.Use(cors.New(cors.Config{
@@ -47,7 +40,7 @@ func main() {
 		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
 	}))
 
-	routes.Setup(app, barcodeHandler, cfg)
+	routes.Setup(app, db, cfg)
 
 	addr := ":" + cfg.ServerPort
 	log.Printf("server running on %s", addr)

@@ -6,7 +6,7 @@ var (
 	ErrInvalidRequest = errors.New("invalid request body")
 	ErrInvalidId      = errors.New("invalid id")
 
-	ErrInvalidCode = errors.New("invalid code39 value")
+	ErrInvalidCode = errors.New("invalid value")
 	ErrDuplicate   = errors.New("product code already exists")
 	ErrNotFound    = errors.New("barcode not found")
 

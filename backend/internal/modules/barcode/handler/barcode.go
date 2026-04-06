@@ -8,10 +8,10 @@ import (
 
 	"no6/backend/internal/config"
 	"no6/backend/internal/models"
-	"no6/backend/internal/modules/products/dto"
-	"no6/backend/internal/modules/products/service"
-	"no6/backend/internal/modules/products/utils"
-	productUtils "no6/backend/internal/modules/products/utils"
+	"no6/backend/internal/modules/barcode/dto"
+	"no6/backend/internal/modules/barcode/service"
+	"no6/backend/internal/modules/barcode/utils"
+	productUtils "no6/backend/internal/modules/barcode/utils"
 )
 
 type BarcodeHandler struct {
@@ -30,7 +30,7 @@ func (h *BarcodeHandler) List(c *fiber.Ctx) error {
 	products, err := h.service.List(c.Context())
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error": utils.ErrList,
+			"error": utils.ErrList.Error(),
 		})
 	}
 
@@ -48,7 +48,7 @@ func (h *BarcodeHandler) Create(c *fiber.Ctx) error {
 	var req dto.CreateBarcodeRequest
 	if err := c.BodyParser(&req); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": utils.ErrInvalidRequest,
+			"error": utils.ErrInvalidRequest.Error(),
 		})
 	}
 
@@ -57,15 +57,15 @@ func (h *BarcodeHandler) Create(c *fiber.Ctx) error {
 		switch {
 		case errors.Is(err, utils.ErrInvalidCode):
 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-				"error": utils.ErrInvalidCode,
+				"error": utils.ErrInvalidCode.Error(),
 			})
 		case errors.Is(err, utils.ErrDuplicate):
 			return c.Status(fiber.StatusConflict).JSON(fiber.Map{
-				"error": utils.ErrDuplicate,
+				"error": utils.ErrDuplicate.Error(),
 			})
 		default:
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": utils.ErrCreate,
+				"error": utils.ErrCreate.Error(),
 			})
 		}
 	}
@@ -79,18 +79,18 @@ func (h *BarcodeHandler) Delete(c *fiber.Ctx) error {
 	idUint64, err := strconv.ParseUint(c.Params("id"), 10, 32)
 	if err != nil || idUint64 == 0 {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": utils.ErrInvalidId,
+			"error": utils.ErrInvalidId.Error(),
 		})
 	}
 
 	if err := h.service.Delete(c.Context(), uint(idUint64)); err != nil {
 		if errors.Is(err, utils.ErrNotFound) {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": utils.ErrNotFound,
+				"error": utils.ErrNotFound.Error(),
 			})
 		}
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error": utils.ErrDelete,
+			"error": utils.ErrDelete.Error(),
 		})
 	}
 

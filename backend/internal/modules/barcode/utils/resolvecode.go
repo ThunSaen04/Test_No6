@@ -3,7 +3,7 @@ package utils
 import (
 	"strings"
 
-	"no6/backend/internal/modules/products/dto"
+	"no6/backend/internal/modules/barcode/dto"
 )
 
 func ResolveCode(r dto.CreateBarcodeRequest) string {
